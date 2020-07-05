@@ -1,0 +1,25 @@
+{
+  "name": "ckb-indexer-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-repl-await src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tspoff/ckb-indexer-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tspoff/ckb-indexer-node/issues"
+  },
+  "homepage": "https://github.com/tspoff/ckb-indexer-node#readme",
+  "dependencies": {
+    "@ckb-lumos/indexer": "^0.4.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
