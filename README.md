@@ -1,5 +1,5 @@
 # ckb-indexer-node
-CKB Indexer service built with Node.
+Minimal CKB Indexer service built with Node, for testing purposes. Not production ready.
 
 ### Usage
 Copy .env.example -> .env
