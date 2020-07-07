@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --experimental-repl-await src/index.js"
+    "start": "LUMOS_CONFIG_FILE=\"config.json\" npx nodemon --experimental-repl-await src/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/tspoff/ckb-indexer-node#readme",
   "dependencies": {
+    "@ckb-lumos/common-scripts": "^0.4.5",
     "@ckb-lumos/indexer": "^0.4.4",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
   }
 }
