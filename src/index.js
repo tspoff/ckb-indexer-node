@@ -7,6 +7,8 @@ const { common, secp256k1Blake160, helper } = require("@ckb-lumos/common-scripts
 const {generateAddress, parseAddress, createTransactionFromSkeleton,
   sealTransaction, TransactionSkeleton } = require("@ckb-lumos/helpers");
   const { initializeConfig, getConfig } = require("@ckb-lumos/config-manager");
+  const {knownTxTypes, buildSkeletonByType, secp256k1Blake160Transfer} = require('./txGenerator');
+const {proposals, signatures, addProposal, addTransaction, addSignatures, clearDatabase} = require('./database');
 
 const app = express();
 app.use(bodyParser.json());
@@ -33,21 +35,52 @@ app.post("/get-transactions", (req, res) => {
   });
 });
 
-app.post("/build-transfer-ckb-tx", async (req, res) => {
+app.post("/get-proposals", (req, res) => {
+  const {daoId} = req.body;
+  return res.json(proposals.find({ daoId}));
+});
+
+app.post("/clear-database", (req, res) => {
+  clearDatabase();
+  return res.json({error: 'none'});
+});
+
+app.post("/add-proposal", async (req, res) => {
+  console.log('/add-proposal', req.body);
+  const {sender, proposal, txFee} = req.body;
+
+  try {
+    const txSkeleton = await secp256k1Blake160Transfer(indexer, {
+      sender,
+      recipient: proposal.recipientAddress,
+      amount: proposal.amount,
+      txFee
+    });
+    const proposalId = addProposal(proposal, txSkeleton);
+    return res.json({proposalId, proposal, txSkeleton});
+  } catch (error) {
+    return res.json({error: error.message});
+  }
+});
+
+app.post("/add-signatures", (req, res) => {
+  console.log('/add-signatures', req.body);
+  const {proposalId, signatures} = req.body;
+  const proposal = addSignatures(proposalId, signatures);
+  return res.json({proposalId, proposal});
+});
+
+app.post("/build-tx", async (req, res) => {
   console.log('/build-transfer-ckb-tx', req.body);
-  const {sender, recipient, amount, txFee} = req.body;
+  const {txType, params} = req.body;
 
-  let txSkeleton = TransactionSkeleton({ cellProvider: indexer });
-
-  txSkeleton = await secp256k1Blake160.transfer(txSkeleton, sender, recipient, BigInt(amount));
-  // console.log(JSON.stringify(createTransactionFromSkeleton(txSkeleton), null, 2));
-
-  txSkeleton = await secp256k1Blake160.payFee(txSkeleton, sender, txFee);
-  console.log(JSON.stringify(createTransactionFromSkeleton(txSkeleton), null, 2));
-
-  txSkeleton = secp256k1Blake160.prepareSigningEntries(txSkeleton);
-  console.log(txSkeleton.get("signingEntries").toArray());
-  return res.json(JSON.stringify(txSkeleton));
+  try {
+    const txSkeleton = buildSkeletonByType(txType, params);
+    const transactionId = addTransaction(txSkeleton);
+    return res.json({transactionId, txSkeleton});
+  } catch (error) {
+    return res.json({error});
+  }
 });
 
 app.listen(process.env.PORT, () => {
