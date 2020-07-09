@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "LUMOS_CONFIG_FILE=\"config.json\" npx nodemon --experimental-repl-await src/index.js"
+    "start": "LUMOS_CONFIG_NAME=AGGRON4 npx nodemon --experimental-repl-await src/index.js"
   },
   "repository": {
     "type": "git",
