@@ -8,7 +8,7 @@ const secp256k1Blake160Transfer = async (indexer, params) => {
     let txSkeleton = TransactionSkeleton({ cellProvider: indexer });
 
     txSkeleton = await secp256k1Blake160.transfer(txSkeleton, sender, recipient, BigInt(amount));
-    txSkeleton = await secp256k1Blake160.payFee(txSkeleton, sender, txFee);
+    txSkeleton = await secp256k1Blake160.payFee(txSkeleton, sender, BigInt(txFee));
     txSkeleton = secp256k1Blake160.prepareSigningEntries(txSkeleton);
     return txSkeleton;
 }
