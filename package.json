@@ -2,10 +2,13 @@
   "name": "ckb-indexer-node",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "LUMOS_CONFIG_NAME=AGGRON4 npx nodemon --experimental-repl-await src/index.js"
+    "start": "LUMOS_CONFIG_NAME=AGGRON4 npx nodemon --experimental-repl-await dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +29,11 @@
     "lokijs": "^1.5.9",
     "nodemon": "^2.0.4",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.22",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.6"
   }
 }

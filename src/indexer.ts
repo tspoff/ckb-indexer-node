@@ -1,16 +1,12 @@
-const {
+import {
   Indexer,
   CellCollector,
   TransactionCollector,
-} = require("@ckb-lumos/indexer");
+} from "@ckb-lumos/indexer";
 
-const indexer = new Indexer(
-  "http://127.0.0.1:8114",
-  "/tmp/indexed-data"
-);
+export const indexer = new Indexer("http://127.0.0.1:8114", "/tmp/indexed-data");
 
-async function collectCells(params) {
-
+export async function collectCells(params) {
   const collector = new CellCollector(indexer, params);
 
   const cells = [];
@@ -21,7 +17,7 @@ async function collectCells(params) {
   return cells;
 }
 
-async function collectTransactions(params) {
+export async function collectTransactions(params) {
   const txCollector = new TransactionCollector(indexer, params);
 
   const txs = [];
@@ -30,10 +26,4 @@ async function collectTransactions(params) {
   }
 
   return txs;
-}
-
-module.exports =  {
-    indexer,
-    collectCells,
-    collectTransactions
 }
