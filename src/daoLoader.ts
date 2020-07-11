@@ -22,7 +22,7 @@ export async function loadProposals(daoIds, db) {
   // Find all off-chain proposals + metadata for on-chain proposals
 
   for (const proposal of sampleProposals) {
-    const txSkeleton = buildSecp256k1Blake160Transfer(indexer, {
+    const txSkeleton = await buildSecp256k1Blake160Transfer(indexer, {
       sender: proposal.senderAddress,
       recipient: proposal.recipientAddress,
       amount: proposal.amount,
