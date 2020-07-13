@@ -1,3 +1,5 @@
+import { TxStatus } from "../types";
+
 // Test proposals
 export const sampleProposals = [
   {
@@ -14,6 +16,8 @@ export const sampleProposals = [
     signatures: [],
     tags: ["#funding"],
     txSkeleton: {},
+    txHash: null,
+    txStatus: TxStatus.NOT_SENT
   },
   {
     daoId: "0",
@@ -29,5 +33,7 @@ export const sampleProposals = [
     signatures: [],
     tags: ["#funding"],
     txSkeleton: {},
+    txHash: null,
+    txStatus: TxStatus.NOT_SENT
   },
 ];

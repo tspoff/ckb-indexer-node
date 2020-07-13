@@ -2,7 +2,7 @@ import express from 'express';
 import {db, DbCollections} from '../database';
 import {buildSecp256k1Blake160Transfer} from '../txGenerators';
 import {indexer} from '../indexer';
-import { SocketEvents } from '../..';
+import { SocketEvents } from '../types';
 import { sealTransaction } from "@ckb-lumos/helpers";
 import rpc from '../rpc';
 
@@ -40,7 +40,7 @@ routes.post("/add-signatures", (req: any, res) => {
     const { proposalId, signatures } = req.body;
 
     const proposal = db.addSignatures(proposalId, signatures);
-    req.io.emit(SocketEvents.ADD_SIGNATURES, { proposalId, proposal, signatures });
+    req.io.emit(SocketEvents.UPDATE_PROPOSAL, { proposalId, proposal, signatures });
 
     return res.json({ status: "success" });
   } catch (error) {
